@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 var xhub = require('express-x-hub');
+var request = require('request')
 
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'));
@@ -49,6 +50,7 @@ app.post('/facebook', function(req, res) {
     // recommend sending 401 status in production for non-validated signatures
     // res.sendStatus(401);
   }
+  request({method: "POST", uri: process.env.URI, json: true, body: req.body})
   console.log(JSON.stringify(req.body, null, 2));
 
 
