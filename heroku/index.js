@@ -36,25 +36,16 @@ app.get(['/facebook', '/instagram'], function(req, res) {
 
 app.post('/facebook', function(req, res) {
   console.log('Facebook request body:');
-
-  if (req.isXHub) {
-    console.log('request header X-Hub-Signature found, validating');
-    if (req.isXHubValid()) {
-      console.log('request header X-Hub-Signature validated');
-    }
-  }
-  else {
-    console.log('Warning - request header X-Hub-Signature not present or invalid');
-    // recommend sending 401 status in production for non-validated signatures
-    // res.sendStatus(401);
-  }
+  
   console.log(JSON.stringify(req.body, null, 2));
+  
   request({method: "POST", uri: process.env.URI, json: true, body: req.body}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log("Notification OK") // Show the HTML for the Google homepage. 
     } 
     else {
       console.log("Notification ERROR")
+      console.log(error)
     }
   });
 
