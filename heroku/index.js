@@ -54,8 +54,19 @@ app.post('/facebook', function(req, res) {
 
 app.post('/instagram', function(req, res) {
   console.log('Instagram request body:');
-  console.log(req.body);
-  // Process the Instagram updates here
+
+  console.log(JSON.stringify(req.body, null, 2));
+  
+  request({method: "POST", uri: process.env.INSTAGRAM_URI, json: true, body: req.body}, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log("Notification OK") // Show the HTML for the Google homepage. 
+    } 
+    else {
+      console.log("Notification ERROR")
+      console.log(error)
+    }
+  });
+
   res.sendStatus(200);
 });
 
