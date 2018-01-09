@@ -39,9 +39,19 @@ app.post('/facebook', function(req, res) {
   
   console.log(JSON.stringify(req.body, null, 2));
   
-  request({method: "POST", uri: process.env.URI, json: true, body: req.body}, function (error, response, body) {
+  request({method: "POST", uri: process.env.DEV_URI, json: true, body: req.body}, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      console.log("Notification OK") // Show the HTML for the Google homepage. 
+      console.log("Notification OK") 
+    } 
+    else {
+      console.log("Notification ERROR")
+      console.log(error)
+    }
+  });
+  
+  request({method: "POST", uri: process.env.STAGE_URI, json: true, body: req.body}, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log("Notification OK")
     } 
     else {
       console.log("Notification ERROR")
